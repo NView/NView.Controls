@@ -6,9 +6,9 @@ namespace NView.Controls
 	{
 		const string NotImplemented = "This functionality is not implemented in the portable version of this assembly.  You should reference the NView.Controls NuGet package from your application in order to reference the platform-specific implementation.";
 
-		public static void ThrowNotImplementedException()
+		public static NotImplementedException ThrowNotImplementedException()
 		{
-			throw new NotImplementedException (NotImplemented);
+			return new NotImplementedException (NotImplemented);
 		}
 	}
 }

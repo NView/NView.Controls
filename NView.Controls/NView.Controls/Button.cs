@@ -33,7 +33,7 @@ namespace NView.Controls
 		/// <param name="nativeView">Native view to bind with.</param>
 		public IDisposable BindToNative (object nativeView)
 		{
-			Helpers.ThrowNotImplementedException ();
+			throw Helpers.ThrowNotImplementedException ();
 		}
 
 		/// <summary>
@@ -42,7 +42,7 @@ namespace NView.Controls
 		/// <value>The type of the preferred native.</value>
 		public Type PreferredNativeType {
 			get {
-				Helpers.ThrowNotImplementedException ();
+				throw Helpers.ThrowNotImplementedException ();
 			}
 		}
 
