@@ -1,5 +1,5 @@
 ﻿using System;
-using Android.Content;
+using AppKit;
 
 namespace NView.Controls
 {
@@ -13,8 +13,8 @@ namespace NView.Controls
 		/// </summary>
 		/// <value>The title.</value>
 		public string Title {
-			get { return button.Text; }
-			set { button.Text = value; }
+			get { return button.Title; }
+			set { button.Title = value; }
 		}
 
 		/// <summary>
@@ -41,21 +41,23 @@ namespace NView.Controls
 		{
 			button = ViewHelpers.GetView<NativeButton> (nativeView);
 			button.Button = this;
-			button.Click += Button_Click;
+			button.Activated += Button_Activated;
 
 			return new DisposeAction (() => {
 				if(button.Button == this) {
-					button.Click -= Button_Click;
+					button.Activated -= Button_Activated;
 					button = null;
 				}
 			});
 		}
 
-		void Button_Click (object sender, EventArgs e)
+		void Button_Activated (object sender, EventArgs e)
 		{
 			if (Clicked != null)
 				Clicked (this, new EventArgs ());
 		}
+
+	
 
 		/// <inheritdoc/>
 		public Type PreferredNativeType {
@@ -66,13 +68,10 @@ namespace NView.Controls
 
 		#endregion
 
-		public class NativeButton : Android.Widget.Button {
+		public class NativeButton : NSButton {
 
 			public Button Button;
-			public NativeButton(Context c)
-				: base(c)
-			{
-			}
+
 		}
 	}
 }
