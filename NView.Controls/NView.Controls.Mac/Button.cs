@@ -32,22 +32,19 @@ namespace NView.Controls
 		/// </summary>
 		public event EventHandler Clicked;
 
-		private NativeButton button;
+		private NSButton button;
 
 		#region IView implementation
 
 		/// <inheritdoc/>
 		public IDisposable BindToNative (object nativeView)
 		{
-			button = ViewHelpers.GetView<NativeButton> (nativeView);
-			button.Button = this;
+			button = ViewHelpers.GetView<NSButton> (nativeView);
 			button.Activated += Button_Activated;
 
 			return new DisposeAction (() => {
-				if(button.Button == this) {
-					button.Activated -= Button_Activated;
-					button = null;
-				}
+				button.Activated -= Button_Activated;
+				button = null;
 			});
 		}
 
@@ -62,17 +59,11 @@ namespace NView.Controls
 		/// <inheritdoc/>
 		public Type PreferredNativeType {
 			get {
-				return typeof(NativeButton);
+				return typeof(NSButton);
 			}
 		}
 
 		#endregion
-
-		public class NativeButton : NSButton {
-
-			public Button Button;
-
-		}
 	}
 }
 
