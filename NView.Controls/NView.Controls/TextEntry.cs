@@ -5,7 +5,7 @@ namespace NView.Controls
 	/// <summary>
 	/// Cross platform Text Entry for NView.
 	/// </summary>
-	public class TextEntry : BaseView
+	public class TextEntry : IView
 	{
 		/// <summary>
 		/// Gets or sets the text.
@@ -23,6 +23,30 @@ namespace NView.Controls
 		/// Event that occurs when text has changed.
 		/// </summary>
 		public event EventHandler TextChanged;
+
+		#region IView implementation
+
+		/// <summary>
+		/// Binds the IView to a native view.
+		/// </summary>
+		/// <returns>A disposable view</returns>
+		/// <param name="nativeView">Native view to bind with.</param>
+		public IDisposable BindToNative (object nativeView)
+		{
+			throw Helpers.ThrowNotImplementedException ();
+		}
+
+		/// <summary>
+		/// Gets the type of the preferred native control.
+		/// </summary>
+		/// <value>The type of the preferred native.</value>
+		public Type PreferredNativeType {
+			get {
+				throw Helpers.ThrowNotImplementedException ();
+			}
+		}
+
+		#endregion
 
 	}
 }

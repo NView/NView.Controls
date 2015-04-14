@@ -12,7 +12,7 @@ namespace NView.Controls
 		/// Gets or sets the title.
 		/// </summary>
 		/// <value>The title.</value>
-		public string Title {
+		public string Text {
 			get { return button.Title; }
 			set { button.Title = value; }
 		}

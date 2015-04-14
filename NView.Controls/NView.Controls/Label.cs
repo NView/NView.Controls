@@ -3,13 +3,15 @@
 namespace NView.Controls
 {
 	/// <summary>
-	/// Base View that simply is an IView
+	/// Cross platform Text View for NView.
 	/// </summary>
-	public class BaseView : IView
+	public class Label : IView
 	{
-		public BaseView ()
-		{
-		}
+		/// <summary>
+		/// Gets or sets the text.
+		/// </summary>
+		/// <value>The text.</value>
+		public string Text { get; set; }
 
 		#region IView implementation
 
@@ -34,6 +36,7 @@ namespace NView.Controls
 		}
 
 		#endregion
+
 	}
 }
 
