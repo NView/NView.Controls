@@ -5,7 +5,7 @@ namespace NView.Controls
 	/// <summary>
 	/// Cross platform Button for NView.
 	/// </summary>
-	public class Button : IView
+	public class Button : BaseView
 	{
 		/// <summary>
 		/// Gets or sets the title.
@@ -23,30 +23,6 @@ namespace NView.Controls
 		/// Event that occurs when button is clicked.
 		/// </summary>
 		public event EventHandler Clicked;
-
-		#region IView implementation
-
-		/// <summary>
-		/// Binds the IView to a native view.
-		/// </summary>
-		/// <returns>A disposable view</returns>
-		/// <param name="nativeView">Native view to bind with.</param>
-		public IDisposable BindToNative (object nativeView)
-		{
-			throw Helpers.ThrowNotImplementedException ();
-		}
-
-		/// <summary>
-		/// Gets the type of the preferred native control.
-		/// </summary>
-		/// <value>The type of the preferred native.</value>
-		public Type PreferredNativeType {
-			get {
-				throw Helpers.ThrowNotImplementedException ();
-			}
-		}
-
-		#endregion
 	}
 }
 
