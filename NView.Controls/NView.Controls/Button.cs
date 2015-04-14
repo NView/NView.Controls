@@ -19,11 +19,14 @@ namespace NView.Controls
 		/// <value><c>true</c> if enabled; otherwise, <c>false</c>.</value>
 		public bool Enabled { get; set; }
 
+
+		//ignore warning as it is used in base implementation
+		#pragma warning disable 67 
 		/// <summary>
 		/// Event that occurs when button is clicked.
 		/// </summary>
 		public event EventHandler Clicked;
-
+		#pragma warning restore
 		#region IView implementation
 
 		/// <summary>

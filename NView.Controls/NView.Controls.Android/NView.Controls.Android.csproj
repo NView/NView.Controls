@@ -50,6 +50,8 @@
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Button.cs" />
+    <Compile Include="Label.cs" />
+    <Compile Include="TextEntry.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
