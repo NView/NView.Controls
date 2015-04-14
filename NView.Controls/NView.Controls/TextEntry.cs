@@ -3,18 +3,24 @@
 namespace NView.Controls
 {
 	/// <summary>
-	/// Cross platform Button for NView.
+	/// Cross platform Text Entry for NView.
 	/// </summary>
-	public class Button : IView
+	public class TextEntry : IView
 	{
 		/// <summary>
-		/// Gets or sets the title.
+		/// Gets or sets the text.
 		/// </summary>
-		/// <value>The title.</value>
+		/// <value>The text.</value>
 		public string Text { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="NView.Controls.Button"/> is enabled.
+		/// Gets or sets the placeholder text to display.
+		/// </summary>
+		/// <value>The placeholder text.</value>
+		public string Placeholder { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this <see cref="NView.Controls.TextEntry"/> is enabled.
 		/// </summary>
 		/// <value><c>true</c> if enabled; otherwise, <c>false</c>.</value>
 		public bool Enabled { get; set; }
@@ -23,9 +29,9 @@ namespace NView.Controls
 		//ignore warning as it is used in base implementation
 		#pragma warning disable 67 
 		/// <summary>
-		/// Event that occurs when button is clicked.
+		/// Event that occurs when text has changed.
 		/// </summary>
-		public event EventHandler Clicked;
+		public event EventHandler TextChanged;
 		#pragma warning restore
 		#region IView implementation
 
@@ -50,6 +56,7 @@ namespace NView.Controls
 		}
 
 		#endregion
+
 	}
 }
 

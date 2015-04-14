@@ -3,30 +3,16 @@
 namespace NView.Controls
 {
 	/// <summary>
-	/// Cross platform Button for NView.
+	/// Cross platform Text View for NView.
 	/// </summary>
-	public class Button : IView
+	public class Label : IView
 	{
 		/// <summary>
-		/// Gets or sets the title.
+		/// Gets or sets the text.
 		/// </summary>
-		/// <value>The title.</value>
+		/// <value>The text.</value>
 		public string Text { get; set; }
 
-		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="NView.Controls.Button"/> is enabled.
-		/// </summary>
-		/// <value><c>true</c> if enabled; otherwise, <c>false</c>.</value>
-		public bool Enabled { get; set; }
-
-
-		//ignore warning as it is used in base implementation
-		#pragma warning disable 67 
-		/// <summary>
-		/// Event that occurs when button is clicked.
-		/// </summary>
-		public event EventHandler Clicked;
-		#pragma warning restore
 		#region IView implementation
 
 		/// <summary>
@@ -50,6 +36,7 @@ namespace NView.Controls
 		}
 
 		#endregion
+
 	}
 }
 
