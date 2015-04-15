@@ -8,15 +8,23 @@ namespace NView.Controls
 	/// </summary>
 	public class Label : IView
 	{
-		private NSTextField textField;
+		NSTextField textField;
+
+		string text = string.Empty;
+
 		/// <summary>
 		/// Gets or sets the text.
 		/// </summary>
 		/// <value>The text.</value>
-		public string Text 
-		{
-			get { return textField.StringValue; }
-			set { textField.StringValue = value; }
+		public string Text {
+			get { return text; }
+			set { 
+				text = value;
+				if (textField == null)
+					return;
+
+				textField.StringValue = text ?? string.Empty; 
+			}
 		}
 
 		#region IView implementation
@@ -28,8 +36,18 @@ namespace NView.Controls
 		/// <param name="nativeView">Native view to bind with.</param>
 		public IDisposable BindToNative (object nativeView)
 		{
+			if (nativeView == null)
+				throw new ArgumentNullException ("nativeView");
+			
 			textField = ViewHelpers.GetView<NSTextField> (nativeView);
 
+			//If the user didn't set text, set local version, 
+			//else we want to take in the button text to sync
+			if (string.IsNullOrEmpty (textField.StringValue)) {
+				textField.StringValue = Text;
+			} else {
+				text = textField.StringValue;
+			}
 
 			return new DisposeAction (() => {
 				textField = null;

@@ -4,6 +4,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NView.Controls", "NView.Controls\NView.Controls.csproj", "{C58ED207-8B8B-4612-8F15-60757CFED0A2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{2A8FF72E-03DE-46F7-AC65-05516D05BF39}"
+	ProjectSection(MonoDevelopProperties) = preProject
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = PrefixedFlat
+		$1.ResourceNamePolicy = FileName
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NView.Controls.Android", "NView.Controls.Android\NView.Controls.Android.csproj", "{62A8D248-D4DD-4B77-9E38-3E00AF37F6BC}"
 EndProject
@@ -38,5 +44,22 @@ Global
 		{62A8D248-D4DD-4B77-9E38-3E00AF37F6BC} = {2A8FF72E-03DE-46F7-AC65-05516D05BF39}
 		{EA4349C9-49BD-4192-B4A3-9DA4150A77C1} = {2A8FF72E-03DE-46F7-AC65-05516D05BF39}
 		{CE2B70EC-5579-4198-B0A3-1F56200AEA7D} = {2A8FF72E-03DE-46F7-AC65-05516D05BF39}
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = None
+		$1.ResourceNamePolicy = FileName
+		$0.TextStylePolicy = $2
+		$2.FileWidth = 120
+		$2.TabsToSpaces = False
+		$2.inheritsSet = VisualStudio
+		$2.inheritsScope = text/plain
+		$2.scope = text/x-csharp
+		$0.CSharpFormattingPolicy = $3
+		$3.AfterDelegateDeclarationParameterComma = True
+		$3.inheritsSet = Mono
+		$3.inheritsScope = text/x-csharp
+		$3.scope = text/x-csharp
 	EndGlobalSection
 EndGlobal
