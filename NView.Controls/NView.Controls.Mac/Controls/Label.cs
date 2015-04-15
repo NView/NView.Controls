@@ -1,11 +1,13 @@
 ﻿using System;
 using AppKit;
+using Foundation;
 
 namespace NView.Controls
 {
 	/// <summary>
 	/// Cross platform Text View for NView.
 	/// </summary>
+	[Preserve]
 	public class Label : IView
 	{
 		NSTextField textField;

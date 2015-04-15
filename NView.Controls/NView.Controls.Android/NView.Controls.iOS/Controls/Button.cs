@@ -1,11 +1,13 @@
 ﻿using System;
 using UIKit;
+using Foundation;
 
 namespace NView.Controls
 {
 	/// <summary>
 	/// Button implementation for Android.
 	/// </summary>
+	[Preserve]
 	public class Button : IView
 	{
 		UIButton button;

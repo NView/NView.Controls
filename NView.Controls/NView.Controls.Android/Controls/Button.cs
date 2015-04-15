@@ -1,10 +1,13 @@
 ﻿using System;
+using Android.Runtime;
 
 namespace NView.Controls
 {
+	
 	/// <summary>
 	/// Button implementation for Android.
 	/// </summary>
+	[Preserve]
 	public class Button : IView
 	{
 		Android.Widget.Button button;

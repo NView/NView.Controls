@@ -1,11 +1,12 @@
 ﻿using System;
+using Android.Runtime;
 
 namespace NView.Controls
 {
-	
 	/// <summary>
 	/// Cross platform Text Entry for NView.
 	/// </summary>
+	[Preserve]
 	public class TextEntry : IView
 	{
 		Android.Widget.EditText editText;

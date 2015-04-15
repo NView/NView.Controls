@@ -1,10 +1,12 @@
 ﻿using System;
+using Android.Runtime;
 
 namespace NView.Controls
 {
 	/// <summary>
 	/// Cross platform Text View for NView.
 	/// </summary>
+	[Preserve]
 	public class Label : IView
 	{
 		Android.Widget.TextView textView;

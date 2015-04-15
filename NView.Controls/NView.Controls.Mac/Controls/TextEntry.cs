@@ -1,11 +1,13 @@
 ﻿using System;
 using AppKit;
+using Foundation;
 
 namespace NView.Controls
 {
 	/// <summary>
 	/// Cross platform Text Entry for NView.
 	/// </summary>
+	[Preserve]
 	public class TextEntry : IView
 	{
 		NSTextField textField;

@@ -1,10 +1,12 @@
 ﻿using System;
+using Foundation;
 
 namespace NView.Controls
 {
 	/// <summary>
 	/// Cross platform Text Entry for NView.
 	/// </summary>
+	[Preserve]
 	public class TextEntry : IView
 	{
 		UIKit.UITextField textField;
