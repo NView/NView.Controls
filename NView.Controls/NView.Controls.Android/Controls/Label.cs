@@ -1,22 +1,31 @@
 ﻿using System;
-using UIKit;
+using Android.Runtime;
 
 namespace NView.Controls
 {
 	/// <summary>
 	/// Cross platform Text View for NView.
 	/// </summary>
+	[Preserve]
 	public class Label : IView
 	{
-		private UILabel label;
+		Android.Widget.TextView textView;
+
+		string text = string.Empty;
+
 		/// <summary>
 		/// Gets or sets the text.
 		/// </summary>
 		/// <value>The text.</value>
-		public string Text 
-		{
-			get { return label.Text; }
-			set { label.Text = value; }
+		public string Text {
+			get { return text; }
+			set {
+				text = value;
+				if (textView == null)
+					return;
+				
+				textView.Text = text ?? string.Empty; 
+			}
 		}
 
 		#region IView implementation
@@ -28,11 +37,21 @@ namespace NView.Controls
 		/// <param name="nativeView">Native view to bind with.</param>
 		public IDisposable BindToNative (object nativeView)
 		{
-			label = ViewHelpers.GetView<UILabel> (nativeView);
+			if (nativeView == null)
+				throw new ArgumentNullException ("nativeView");
+			
+			textView = ViewHelpers.GetView<Android.Widget.TextView> (nativeView);
 
+			//If the user didn't set text, set local version, 
+			//else we want to take in the button text to sync
+			if (string.IsNullOrEmpty (textView.Text)) {
+				textView.Text = Text;
+			} else {
+				text = textView.Text;
+			}
 
 			return new DisposeAction (() => {
-				label = null;
+				textView = null;
 			});
 		}
 
@@ -42,7 +61,7 @@ namespace NView.Controls
 		/// <value>The type of the preferred native.</value>
 		public Type PreferredNativeType {
 			get {
-				return typeof(UILabel);
+				return typeof(Android.Widget.TextView);
 			}
 		}
 
