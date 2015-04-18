@@ -13,9 +13,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Platforms", "Platforms", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NView.Controls.Android", "NView.Controls.Android\NView.Controls.Android.csproj", "{62A8D248-D4DD-4B77-9E38-3E00AF37F6BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NView.Controls.iOS", "NView.Controls.Android\NView.Controls.iOS\NView.Controls.iOS.csproj", "{EA4349C9-49BD-4192-B4A3-9DA4150A77C1}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NView.Controls.Mac", "NView.Controls.Mac\NView.Controls.Mac.csproj", "{CE2B70EC-5579-4198-B0A3-1F56200AEA7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NView.Controls.iOS", "NView.Controls.iOS\NView.Controls.iOS.csproj", "{EA4349C9-49BD-4192-B4A3-9DA4150A77C1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{67678F5F-7D7B-427C-A3E4-E0B8D58A7723}"
 	ProjectSection(SolutionItems) = preProject
@@ -47,8 +47,8 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{62A8D248-D4DD-4B77-9E38-3E00AF37F6BC} = {2A8FF72E-03DE-46F7-AC65-05516D05BF39}
-		{EA4349C9-49BD-4192-B4A3-9DA4150A77C1} = {2A8FF72E-03DE-46F7-AC65-05516D05BF39}
 		{CE2B70EC-5579-4198-B0A3-1F56200AEA7D} = {2A8FF72E-03DE-46F7-AC65-05516D05BF39}
+		{EA4349C9-49BD-4192-B4A3-9DA4150A77C1} = {2A8FF72E-03DE-46F7-AC65-05516D05BF39}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		Policies = $0
