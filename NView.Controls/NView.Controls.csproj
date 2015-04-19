@@ -38,6 +38,8 @@
     <Compile Include="Helpers.cs" />
     <Compile Include="TextEntry.cs" />
     <Compile Include="Label.cs" />
+    <Compile Include="Stack.cs" />
+    <Compile Include="StackLayout.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
