@@ -34,9 +34,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
-    <Reference Include="NView.ViewHelpers.iOS">
-      <HintPath>..\packages\NView.1.1.3\lib\Xamarin.iOS10\NView.ViewHelpers.dll</HintPath>
-    </Reference>
     <Reference Include="NView.ViewHelpers">
       <HintPath>..\packages\NView.1.2.0\lib\Xamarin.iOS10\NView.ViewHelpers.dll</HintPath>
     </Reference>

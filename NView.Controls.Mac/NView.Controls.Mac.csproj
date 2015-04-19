@@ -46,9 +46,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.Mac" />
-    <Reference Include="NView.ViewHelpers.Mac">
-      <HintPath>..\packages\NView.1.1.3\lib\Xamarin.Mac20\NView.ViewHelpers.dll</HintPath>
-    </Reference>
     <Reference Include="NView.ViewHelpers">
       <HintPath>..\packages\NView.1.2.0\lib\Xamarin.Mac20\NView.ViewHelpers.dll</HintPath>
     </Reference>
