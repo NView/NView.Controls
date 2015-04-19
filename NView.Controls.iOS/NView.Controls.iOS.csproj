@@ -53,12 +53,6 @@
     <Compile Include="Controls\TextEntry.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\NView.Controls\NView.Controls.csproj">
-      <Project>{C58ED207-8B8B-4612-8F15-60757CFED0A2}</Project>
-      <Name>NView.Controls</Name>
-    </ProjectReference>
-  </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>
