@@ -37,8 +37,11 @@
     <Reference Include="NView.ViewHelpers.iOS">
       <HintPath>..\packages\NView.1.1.3\lib\Xamarin.iOS10\NView.ViewHelpers.dll</HintPath>
     </Reference>
+    <Reference Include="NView.ViewHelpers">
+      <HintPath>..\packages\NView.1.2.0\lib\Xamarin.iOS10\NView.ViewHelpers.dll</HintPath>
+    </Reference>
     <Reference Include="NView">
-      <HintPath>..\packages\NView.1.1.3\lib\Xamarin.iOS10\NView.dll</HintPath>
+      <HintPath>..\packages\NView.1.2.0\lib\Xamarin.iOS10\NView.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

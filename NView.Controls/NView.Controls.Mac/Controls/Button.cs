@@ -57,26 +57,24 @@ namespace NView.Controls
 		#region IView implementation
 
 		/// <inheritdoc/>
-		public IDisposable BindToNative (object nativeView)
+		public IDisposable BindToNative (object nativeView, BindOptions options = BindOptions.None)
 		{
 			if (nativeView == null)
 				throw new ArgumentNullException ("nativeView");
 			
 			button = ViewHelpers.GetView<NSButton> (nativeView);
 
-			//Toggle enabled if needed
-			if (button.Enabled != Enabled) {
-				Enabled = button.Enabled;
-			}
+			if (options.HasFlag (BindOptions.PreserveNativeProperties)) {
 
-			//If the user didn't set text, set local version, 
-			//else we want to take in the button text to sync
-			if (string.IsNullOrEmpty (button.StringValue)) {
-				button.StringValue = text;
+				enabled = button.Enabled;
+				text = button.Title;
+
 			} else {
-				text = button.StringValue;
-			}
 
+				button.Enabled = enabled;
+				button.Title = text;
+
+			}
 
 			button.Activated += Button_Activated;
 

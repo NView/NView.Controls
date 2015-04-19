@@ -68,37 +68,26 @@ namespace NView.Controls
 
 		#region IView implementation
 
-		/// <summary>
-		/// Binds the IView to a native view.
-		/// </summary>
-		/// <returns>A disposable view</returns>
-		/// <param name="nativeView">Native view to bind with.</param>
-		public IDisposable BindToNative (object nativeView)
+		/// <inheritdoc/>
+		public IDisposable BindToNative (object nativeView, BindOptions options = BindOptions.None)
 		{
 			if (nativeView == null)
 				throw new ArgumentNullException ("nativeView");
 			
 			editText = ViewHelpers.GetView<Android.Widget.EditText> (nativeView);
 
-			//Toggle enabled if needed
-			if (editText.Enabled != Enabled) {
-				Enabled = editText.Enabled;
-			}
+			if (options.HasFlag (BindOptions.PreserveNativeProperties)) {
 
-			//If the user didn't set text, set local version, 
-			//else we want to take in the button text to sync
-			if (string.IsNullOrEmpty (editText.Text)) {
-				editText.Text = Text;
-			} else {
 				text = editText.Text;
-			}
-
-			//If the user didn't set text, set local version, 
-			//else we want to take in the button text to sync
-			if (string.IsNullOrEmpty (editText.Hint)) {
-				editText.Hint = Placeholder;
-			} else {
 				placeholder = editText.Hint;
+				enabled = editText.Enabled;
+
+			} else {
+
+				editText.Text = text;
+				editText.Hint = placeholder;
+				editText.Enabled = enabled;
+
 			}
 
 			editText.TextChanged += EditText_TextChanged;
@@ -120,10 +109,7 @@ namespace NView.Controls
 			TextChanged (this, new EventArgs ());
 		}
 
-		/// <summary>
-		/// Gets the type of the preferred native control.
-		/// </summary>
-		/// <value>The type of the preferred native.</value>
+		/// <inheritdoc/>
 		public Type PreferredNativeType {
 			get {
 				return typeof(Android.Widget.EditText);

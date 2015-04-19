@@ -54,24 +54,23 @@ namespace NView.Controls
 		#region IView implementation
 
 		/// <inheritdoc/>
-		public IDisposable BindToNative (object nativeView)
+		public IDisposable BindToNative (object nativeView, BindOptions options = BindOptions.None)
 		{
 			if (nativeView == null)
 				throw new ArgumentNullException ("nativeView");
 			
 			button = ViewHelpers.GetView<Android.Widget.Button> (nativeView);
 
-			//Toggle enabled if needed
-			if (button.Enabled != Enabled) {
-				Enabled = button.Enabled;
-			}
-
-			//If the user didn't set text, set local version, 
-			//else we want to take in the button text to sync
-			if (string.IsNullOrEmpty (button.Text)) {
-				button.Text = Text;
-			} else {
+			if (options.HasFlag (BindOptions.PreserveNativeProperties)) {
+				
+				enabled = button.Enabled;
 				text = button.Text;
+
+			} else {
+
+				button.Enabled = enabled;
+				button.Text = text;
+
 			}
 
 			button.Click += Button_Click;

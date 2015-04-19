@@ -30,24 +30,22 @@ namespace NView.Controls
 
 		#region IView implementation
 
-		/// <summary>
-		/// Binds the IView to a native view.
-		/// </summary>
-		/// <returns>A disposable view</returns>
-		/// <param name="nativeView">Native view to bind with.</param>
-		public IDisposable BindToNative (object nativeView)
+		/// <inheritdoc/>
+		public IDisposable BindToNative (object nativeView, BindOptions options = BindOptions.None)
 		{
 			if (nativeView == null)
 				throw new ArgumentNullException ("nativeView");
 			
 			textView = ViewHelpers.GetView<Android.Widget.TextView> (nativeView);
 
-			//If the user didn't set text, set local version, 
-			//else we want to take in the button text to sync
-			if (string.IsNullOrEmpty (textView.Text)) {
-				textView.Text = Text;
-			} else {
+			if (options.HasFlag (BindOptions.PreserveNativeProperties)) {
+
 				text = textView.Text;
+
+			} else {
+
+				textView.Text = text;
+
 			}
 
 			return new DisposeAction (() => {
@@ -55,10 +53,7 @@ namespace NView.Controls
 			});
 		}
 
-		/// <summary>
-		/// Gets the type of the preferred native control.
-		/// </summary>
-		/// <value>The type of the preferred native.</value>
+		/// <inheritdoc/>
 		public Type PreferredNativeType {
 			get {
 				return typeof(Android.Widget.TextView);

@@ -15,20 +15,13 @@ namespace NView.Controls
 
 		#region IView implementation
 
-		/// <summary>
-		/// Binds the IView to a native view.
-		/// </summary>
-		/// <returns>A disposable view</returns>
-		/// <param name="nativeView">Native view to bind with.</param>
-		public IDisposable BindToNative (object nativeView)
+		/// <inheritdoc/>
+		public IDisposable BindToNative (object nativeView, BindOptions options = BindOptions.None)
 		{
 			throw Helpers.ThrowNotImplementedException ();
 		}
 
-		/// <summary>
-		/// Gets the type of the preferred native control.
-		/// </summary>
-		/// <value>The type of the preferred native.</value>
+		/// <inheritdoc/>
 		public Type PreferredNativeType {
 			get {
 				throw Helpers.ThrowNotImplementedException ();
@@ -36,7 +29,6 @@ namespace NView.Controls
 		}
 
 		#endregion
-
 	}
 }
 

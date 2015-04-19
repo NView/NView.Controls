@@ -30,24 +30,22 @@ namespace NView.Controls
 
 		#region IView implementation
 
-		/// <summary>
-		/// Binds the IView to a native view.
-		/// </summary>
-		/// <returns>A disposable view</returns>
-		/// <param name="nativeView">Native view to bind with.</param>
-		public IDisposable BindToNative (object nativeView)
+		/// <inheritdoc/>
+		public IDisposable BindToNative (object nativeView, BindOptions options = BindOptions.None)
 		{
 			if (nativeView == null)
 				throw new ArgumentNullException ("nativeView");
 			
 			label = ViewHelpers.GetView<UILabel> (nativeView);
 
-			//If the user didn't set text, set local version, 
-			//else we want to take in the button text to sync
-			if (string.IsNullOrEmpty (label.Text)) {
-				label.Text = Text;
-			} else {
+			if (options.HasFlag (BindOptions.PreserveNativeProperties)) {
+
 				text = label.Text;
+
+			} else {
+
+				label.Text = text;
+
 			}
 
 			return new DisposeAction (() => {

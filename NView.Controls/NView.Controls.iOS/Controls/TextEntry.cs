@@ -69,39 +69,27 @@ namespace NView.Controls
 
 		#region IView implementation
 
-		/// <summary>
-		/// Binds the IView to a native view.
-		/// </summary>
-		/// <returns>A disposable view</returns>
-		/// <param name="nativeView">Native view to bind with.</param>
-		public IDisposable BindToNative (object nativeView)
+		/// <inheritdoc/>
+		public IDisposable BindToNative (object nativeView, BindOptions options = BindOptions.None)
 		{
 			if (nativeView == null)
 				throw new ArgumentNullException ("nativeView");
 			
 			textField = ViewHelpers.GetView<UIKit.UITextField> (nativeView);
 
-			//Toggle enabled if needed
-			if (textField.Enabled != Enabled) {
-				Enabled = textField.Enabled;
-			}
+			if (options.HasFlag (BindOptions.PreserveNativeProperties)) {
 
-			//If the user didn't set text, set local version, 
-			//else we want to take in the button text to sync
-			if (string.IsNullOrEmpty (textField.Text)) {
-				textField.Text = Text;
-			} else {
 				text = textField.Text;
-			}
-
-			//If the user didn't set text, set local version, 
-			//else we want to take in the button text to sync
-			if (string.IsNullOrEmpty (textField.Placeholder)) {
-				textField.Placeholder = Placeholder;
-			} else {
 				placeholder = textField.Placeholder;
-			}
+				enabled = textField.Enabled;
 
+			} else {
+
+				textField.Text = text;
+				textField.Placeholder = placeholder;
+				textField.Enabled = enabled;
+
+			}
 
 			textField.ValueChanged += TextField_ValueChanged;
 
@@ -122,12 +110,7 @@ namespace NView.Controls
 			TextChanged (this, new EventArgs ());
 		}
 
-
-
-		/// <summary>
-		/// Gets the type of the preferred native control.
-		/// </summary>
-		/// <value>The type of the preferred native.</value>
+		/// <inheritdoc/>
 		public Type PreferredNativeType {
 			get {
 				return typeof(UIKit.UITextField);

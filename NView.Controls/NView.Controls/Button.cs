@@ -19,30 +19,23 @@ namespace NView.Controls
 		/// <value><c>true</c> if enabled; otherwise, <c>false</c>.</value>
 		public bool Enabled { get; set; }
 
-
-		//ignore warning as it is used in base implementation
+		//ignore warning as this is just a stub class
 		#pragma warning disable 67 
 		/// <summary>
 		/// Event that occurs when button is clicked.
 		/// </summary>
 		public event EventHandler Clicked;
 		#pragma warning restore
+
 		#region IView implementation
 
-		/// <summary>
-		/// Binds the IView to a native view.
-		/// </summary>
-		/// <returns>A disposable view</returns>
-		/// <param name="nativeView">Native view to bind with.</param>
-		public IDisposable BindToNative (object nativeView)
+		/// <inheritdoc/>
+		public IDisposable BindToNative (object nativeView, BindOptions options = BindOptions.None)
 		{
 			throw Helpers.ThrowNotImplementedException ();
 		}
 
-		/// <summary>
-		/// Gets the type of the preferred native control.
-		/// </summary>
-		/// <value>The type of the preferred native.</value>
+		/// <inheritdoc/>
 		public Type PreferredNativeType {
 			get {
 				throw Helpers.ThrowNotImplementedException ();

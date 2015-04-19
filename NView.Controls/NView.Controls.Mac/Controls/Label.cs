@@ -31,24 +31,22 @@ namespace NView.Controls
 
 		#region IView implementation
 
-		/// <summary>
-		/// Binds the IView to a native view.
-		/// </summary>
-		/// <returns>A disposable view</returns>
-		/// <param name="nativeView">Native view to bind with.</param>
-		public IDisposable BindToNative (object nativeView)
+		/// <inheritdoc/>
+		public IDisposable BindToNative (object nativeView, BindOptions options = BindOptions.None)
 		{
 			if (nativeView == null)
 				throw new ArgumentNullException ("nativeView");
 			
 			textField = ViewHelpers.GetView<NSTextField> (nativeView);
 
-			//If the user didn't set text, set local version, 
-			//else we want to take in the button text to sync
-			if (string.IsNullOrEmpty (textField.StringValue)) {
-				textField.StringValue = Text;
-			} else {
+			if (options.HasFlag (BindOptions.PreserveNativeProperties)) {
+
 				text = textField.StringValue;
+
+			} else {
+
+				textField.StringValue = text;
+
 			}
 
 			return new DisposeAction (() => {
@@ -56,10 +54,7 @@ namespace NView.Controls
 			});
 		}
 
-		/// <summary>
-		/// Gets the type of the preferred native control.
-		/// </summary>
-		/// <value>The type of the preferred native.</value>
+		/// <inheritdoc/>
 		public Type PreferredNativeType {
 			get {
 				return typeof(NSTextField);
