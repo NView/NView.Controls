@@ -35,9 +35,9 @@ nuget push $APP.$VER.nupkg
 
 echo Committing changes and tagging this release
 
-#git commit -am "Release $VER"
-#git tag -a v$VER -m "Release $VER"
-#git push --follow-tags
+git commit -am "Release $VER"
+git tag -a v$VER -m "Release $VER"
+git push --follow-tags
 
 
 
