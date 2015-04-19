@@ -20,6 +20,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{67678F5F-7D7B-427C-A3E4-E0B8D58A7723}"
 	ProjectSection(SolutionItems) = preProject
 		NView.Controls.nuspec = NView.Controls.nuspec
+		release.sh = release.sh
 	EndProjectSection
 EndProject
 Global
