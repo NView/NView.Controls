@@ -41,6 +41,8 @@
     <CreatePackage>false</CreatePackage>
     <EnableCodeSigning>false</EnableCodeSigning>
     <EnablePackageSigning>false</EnablePackageSigning>
+    <DebugSymbols>true</DebugSymbols>
+    <DocumentationFile>bin\Release\NView.Controls.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
