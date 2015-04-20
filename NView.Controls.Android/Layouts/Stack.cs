@@ -1,12 +1,14 @@
 ﻿using System;
 
 using Android.Widget;
+using Android.Runtime;
 
 namespace NView.Controls
 {
 	/// <summary>
 	/// Cross platform Stack layout for NView. Stacks can be horizontal or vertical.
 	/// </summary>
+	[Preserve]
 	public class Stack : IView
 	{
 		/// <summary>

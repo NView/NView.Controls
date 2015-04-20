@@ -55,9 +55,10 @@
     <Compile Include="Controls\Label.cs" />
     <Compile Include="Controls\TextEntry.cs" />
     <Compile Include="..\NView.Controls\StackLayout.cs">
-      <Link>Controls\StackLayout.cs</Link>
+      <Link>Layouts\StackLayout.cs</Link>
     </Compile>
-    <Compile Include="Controls\Stack.cs" />
+    <Compile Include="Layouts\Stack.cs" />
+    <Compile Include="Controls\Switch.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

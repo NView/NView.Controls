@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 
+using Foundation;
+
 #if __IOS__
 using UIKit;
 using NativeView = UIKit.UIView;
@@ -15,6 +17,7 @@ namespace NView.Controls
 	/// <summary>
 	/// Cross platform Stack layout for NView. Stacks can be horizontal or vertical.
 	/// </summary>
+	[Preserve]
 	public class Stack : IView
 	{
 		NativeView nativeView;

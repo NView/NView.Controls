@@ -58,16 +58,18 @@
   <ItemGroup>
     <Folder Include="Resources\" />
     <Folder Include="Controls\" />
+    <Folder Include="Layouts\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controls\Button.cs" />
     <Compile Include="Controls\Label.cs" />
     <Compile Include="Controls\TextEntry.cs" />
-    <Compile Include="Controls\Stack.cs" />
     <Compile Include="..\NView.Controls\StackLayout.cs">
-      <Link>Controls\StackLayout.cs</Link>
+      <Link>Layouts\StackLayout.cs</Link>
     </Compile>
+    <Compile Include="Layouts\Stack.cs" />
+    <Compile Include="Controls\Switch.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
   <ProjectExtensions>
