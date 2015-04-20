@@ -54,6 +54,10 @@
     <Compile Include="Controls\Button.cs" />
     <Compile Include="Controls\Label.cs" />
     <Compile Include="Controls\TextEntry.cs" />
+    <Compile Include="..\NView.Controls\StackLayout.cs">
+      <Link>Controls\StackLayout.cs</Link>
+    </Compile>
+    <Compile Include="Controls\Stack.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
