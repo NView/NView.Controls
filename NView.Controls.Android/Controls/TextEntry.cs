@@ -69,10 +69,12 @@ namespace NView.Controls
 		#region IView implementation
 
 		/// <inheritdoc/>
-		public IDisposable BindToNative (object nativeView, BindOptions options = BindOptions.None)
+		public void BindToNative (object nativeView, BindOptions options = BindOptions.None)
 		{
 			if (nativeView == null)
 				throw new ArgumentNullException ("nativeView");
+
+			UnbindFromNative ();
 			
 			editText = ViewHelpers.GetView<Android.Widget.EditText> (nativeView);
 
@@ -91,11 +93,15 @@ namespace NView.Controls
 			}
 
 			editText.TextChanged += EditText_TextChanged;
+		}
 
-			return new DisposeAction (() => {
-				editText.TextChanged -= EditText_TextChanged;
-				editText = null;
-			});
+		/// <inheritdoc/>
+		public void UnbindFromNative ()
+		{
+			if (editText == null)
+				return;
+			editText.TextChanged -= EditText_TextChanged;
+			editText = null;
 		}
 
 		void EditText_TextChanged (object sender, Android.Text.TextChangedEventArgs e)

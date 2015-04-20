@@ -70,10 +70,12 @@ namespace NView.Controls
 		#region IView implementation
 
 		/// <inheritdoc/>
-		public IDisposable BindToNative (object nativeView, BindOptions options = BindOptions.None)
+		public void BindToNative (object nativeView, BindOptions options = BindOptions.None)
 		{
 			if (nativeView == null)
 				throw new ArgumentNullException ("nativeView");
+
+			UnbindFromNative ();
 			
 			textField = ViewHelpers.GetView<NSTextField> (nativeView);
 
@@ -92,11 +94,15 @@ namespace NView.Controls
 			}
 
 			textField.Changed += TextField_Changed;
+		}
 
-			return new DisposeAction (() => {
-				textField.Changed -= TextField_Changed;
-				textField = null;
-			});
+		/// <inheritdoc/>
+		public void UnbindFromNative ()
+		{
+			if (textField == null)
+				return;
+			textField.Changed -= TextField_Changed;
+			textField = null;
 		}
 
 		void TextField_Changed (object sender, EventArgs e)

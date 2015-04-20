@@ -12,16 +12,6 @@ using NativeView = AppKit.NSView;
 
 namespace NView.Controls
 {
-	public static class CCC
-	{
-		public static NativeView CreateNative (this IView view)
-		{
-			if (view == null)
-				throw new ArgumentNullException ("view");
-			var type = view.PreferredNativeType;
-			return ViewHelpers.CreateView (type);
-		}
-	}
 	/// <summary>
 	/// Cross platform Stack layout for NView. Stacks can be horizontal or vertical.
 	/// </summary>
@@ -34,7 +24,6 @@ namespace NView.Controls
 			public IView View;
 			public StackLayout Layout;
 			public NativeView NativeView;
-			public IDisposable Binding;
 		}
 		readonly List<Child> children = new List<Child> ();
 
@@ -67,8 +56,7 @@ namespace NView.Controls
 			foreach (var c in children) {
 				if (c.NativeView != null)
 					continue;
-				c.NativeView = c.View.CreateNative ();
-				c.Binding = c.View.BindToNative (c.NativeView);
+				c.NativeView = c.View.CreateBoundNativeView ();
 				nativeView.AddSubview (c.NativeView);
 			}
 		}
@@ -140,12 +128,22 @@ namespace NView.Controls
 		#region IView implementation
 
 		/// <inheritdoc/>
-		public IDisposable BindToNative (object nativeView, BindOptions options = BindOptions.None)
+		public void BindToNative (object nativeView, BindOptions options = BindOptions.None)
 		{
+			if (nativeView == null)
+				throw new ArgumentNullException ("nativeView");
+			
+			UnbindFromNative ();
+
 			this.nativeView = ViewHelpers.GetView<NativeView> (nativeView);
-			return new DisposeAction (() => {
-				this.nativeView = null;
-			});
+		}
+
+		/// <inheritdoc/>
+		public void UnbindFromNative ()
+		{
+			if (nativeView == null)
+				return;
+			nativeView = null;
 		}
 
 		/// <inheritdoc/>

@@ -31,10 +31,12 @@ namespace NView.Controls
 		#region IView implementation
 
 		/// <inheritdoc/>
-		public IDisposable BindToNative (object nativeView, BindOptions options = BindOptions.None)
+		public void BindToNative (object nativeView, BindOptions options = BindOptions.None)
 		{
 			if (nativeView == null)
 				throw new ArgumentNullException ("nativeView");
+
+			UnbindFromNative ();
 			
 			textView = ViewHelpers.GetView<Android.Widget.TextView> (nativeView);
 
@@ -47,10 +49,12 @@ namespace NView.Controls
 				textView.Text = text;
 
 			}
+		}
 
-			return new DisposeAction (() => {
-				textView = null;
-			});
+		/// <inheritdoc/>
+		public void UnbindFromNative ()
+		{
+			textView = null;
 		}
 
 		/// <inheritdoc/>

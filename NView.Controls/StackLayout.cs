@@ -121,6 +121,7 @@ namespace NView.Controls
 			return new StackLayoutSize (StackLayoutSizeType.WrapContent, 0.0);
 		}
 
+		/// <inheritdoc/>
 		public override string ToString ()
 		{
 			switch (SizeType) {

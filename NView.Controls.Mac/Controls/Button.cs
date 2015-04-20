@@ -57,10 +57,12 @@ namespace NView.Controls
 		#region IView implementation
 
 		/// <inheritdoc/>
-		public IDisposable BindToNative (object nativeView, BindOptions options = BindOptions.None)
+		public void BindToNative (object nativeView, BindOptions options = BindOptions.None)
 		{
 			if (nativeView == null)
 				throw new ArgumentNullException ("nativeView");
+
+			UnbindFromNative ();
 			
 			button = ViewHelpers.GetView<NSButton> (nativeView);
 
@@ -77,11 +79,15 @@ namespace NView.Controls
 			}
 
 			button.Activated += Button_Activated;
+		}
 
-			return new DisposeAction (() => {
-				button.Activated -= Button_Activated;
-				button = null;
-			});
+		/// <inheritdoc/>
+		public void UnbindFromNative ()
+		{
+			if (button == null)
+				return;
+			button.Activated -= Button_Activated;
+			button = null;
 		}
 
 		void Button_Activated (object sender, EventArgs e)

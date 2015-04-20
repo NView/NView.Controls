@@ -25,7 +25,13 @@ namespace NView.Controls
 		#region IView implementation
 
 		/// <inheritdoc/>
-		public IDisposable BindToNative (object nativeView, BindOptions options = BindOptions.None)
+		public void BindToNative (object nativeView, BindOptions options = BindOptions.None)
+		{
+			throw Helpers.ThrowNotImplementedException ();
+		}
+
+		/// <inheritdoc/>
+		public void UnbindFromNative ()
 		{
 			throw Helpers.ThrowNotImplementedException ();
 		}
