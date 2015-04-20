@@ -9,24 +9,35 @@ namespace NView.Controls
 	public class StackLayout
 	{
 		/// <summary>
-		/// Gets the horizontal alignment.
+		/// Gets the horizontal alignment. Defaults to Left.
 		/// </summary>
 		public HorizontalAlignment HorizontalAlignment { get; set; }
 
 		/// <summary>
-		/// Gets the vertical alignment.
+		/// Gets the vertical alignment. Defaults to Top.
 		/// </summary>
 		public VerticalAlignment VerticalAlignment { get; set; }
 
 		/// <summary>
-		/// Gets the width.
+		/// Gets the width. Defaults to WrapContent.
 		/// </summary>
 		public StackLayoutSize Width { get; set; }
 
 		/// <summary>
-		/// Gets the height.
+		/// Gets the height. Defaults to WrapContent.
 		/// </summary>
 		public StackLayoutSize Height { get; set; }
+
+		/// <summary>
+		/// Defaults to a top-left layout that wraps its content.
+		/// </summary>
+		public StackLayout ()
+		{
+			HorizontalAlignment = HorizontalAlignment.Left;
+			VerticalAlignment = VerticalAlignment.Top;
+			Width = StackLayoutSize.WrapContent ();
+			Height = StackLayoutSize.WrapContent ();
+		}
 	}
 
 	/// <summary>
@@ -51,13 +62,13 @@ namespace NView.Controls
 	/// <summary>
 	/// Size of a view inside of a <see cref="Stack"/>
 	/// </summary>
-	public class StackLayoutSize
+	public struct StackLayoutSize
 	{
 		/// <summary>
 		/// Which of the possible ways to specify this size.
 		/// </summary>
 		/// <value>The type of the size.</value>
-		public StackLayoutSizeType SizeType { get; private set; }
+		public StackLayoutSizeType SizeType;
 
 		/// <summary>
 		/// The generic value for the size.
@@ -65,7 +76,7 @@ namespace NView.Controls
 		/// For relative sizes, this is a proportion between 0 and 1.
 		/// For wrapped sizes, this value is ignored.
 		/// </summary>
-		public double Value { get; private set; }
+		public double Value;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="NView.Controls.StackLayoutSize"/> class.
@@ -108,6 +119,20 @@ namespace NView.Controls
 		public static StackLayoutSize WrapContent ()
 		{
 			return new StackLayoutSize (StackLayoutSizeType.WrapContent, 0.0);
+		}
+
+		public override string ToString ()
+		{
+			switch (SizeType) {
+			case StackLayoutSizeType.Absolute:
+				return string.Format ("{0} points", Value);
+			case StackLayoutSizeType.RelativeToParent:
+				return string.Format ("{0:P}", Value * 100);
+			case StackLayoutSizeType.WrapContent:
+				return "Wrap Content";
+			default:
+				return "???";
+			}
 		}
 	}
 
