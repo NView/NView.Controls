@@ -57,6 +57,7 @@ namespace NView.Controls
 				if (c.NativeView != null)
 					continue;
 				c.NativeView = c.View.CreateBoundNativeView ();
+				c.NativeView.TranslatesAutoresizingMaskIntoConstraints = false;
 				nativeView.AddSubview (c.NativeView);
 			}
 		}
@@ -86,6 +87,9 @@ namespace NView.Controls
 			
 			var newConstraints = new List<NSLayoutConstraint> ();
 
+			//
+			// Align the major axis
+			//
 			var leftAttr = horizontal ? NSLayoutAttribute.Left : NSLayoutAttribute.Top;
 			var rightAttr = horizontal ? NSLayoutAttribute.Right : NSLayoutAttribute.Bottom;
 			//var centerAttr = horizontal ? NSLayoutAttribute.CenterX : NSLayoutAttribute.CenterY;
@@ -108,14 +112,54 @@ namespace NView.Controls
 
 			}
 
-			if (centers.Count > 0) {
-				throw new NotImplementedException ();
-			}
+			Child subs = null;
 
 			if (rights.Count > 0) {
-				throw new NotImplementedException ();
+				var last = rights.Last ();
+				eq (nativeView, rightAttr, last.NativeView, rightAttr);
+				subs = last;
+				foreach (var c in rights.Take (rights.Count - 1).Reverse ()) {
+					eq (subs.NativeView, leftAttr, c.NativeView, rightAttr);
+					subs = c;
+				}
 			}
 
+			if (centers.Count > 0) {
+				throw new NotImplementedException ("Center alignment not yet supported");
+			}
+
+			//
+			// Align the minor axis
+			//
+			foreach (var c in children) {
+				var a = NSLayoutAttribute.Left;
+				if (horizontal) {
+					switch (c.Layout.VerticalAlignment) {
+					case VerticalAlignment.Top:
+						a = NSLayoutAttribute.Top;
+						break;
+					case VerticalAlignment.Center:
+						a = NSLayoutAttribute.CenterY;
+						break;
+					default:
+						a = NSLayoutAttribute.Bottom;
+						break;
+					}
+				} else {
+					switch (c.Layout.HorizontalAlignment) {
+					case HorizontalAlignment.Left:
+						a = NSLayoutAttribute.Left;
+						break;
+					case HorizontalAlignment.Center:
+						a = NSLayoutAttribute.CenterX;
+						break;
+					default:
+						a = NSLayoutAttribute.Right;
+						break;
+					}
+				}
+				eq (nativeView, a, c.NativeView, a);
+			}
 
 			// Swap out the old, put in the new
 			if (constraints != null) {
@@ -136,6 +180,8 @@ namespace NView.Controls
 			UnbindFromNative ();
 
 			this.nativeView = ViewHelpers.GetView<NativeView> (nativeView);
+
+			SetStackConstraints ();
 		}
 
 		/// <inheritdoc/>
@@ -143,6 +189,10 @@ namespace NView.Controls
 		{
 			if (nativeView == null)
 				return;
+			foreach (var c in children) {
+				c.View.UnbindFromNative ();
+				c.NativeView = null;
+			}
 			nativeView = null;
 		}
 
