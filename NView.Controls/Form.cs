@@ -5,15 +5,15 @@ namespace NView.Controls
 	/// <summary>
 	/// Cross platform Form View for NView. Based on MonoTouch.Dialog.
 	/// </summary>
-	public class FormView : IView
+	public class Form : IView
 	{
 		public RootElement Root { get; set; }
 
-		public FormView ()
+		public Form ()
 		{
 			
 		}
-		public FormView (RootElement root)
+		public Form (RootElement root)
 		{
 
 		}

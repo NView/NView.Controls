@@ -59,6 +59,10 @@
       <Link>Layouts\Stack.cs</Link>
     </Compile>
     <Compile Include="Controls\Toggle.cs" />
+    <Compile Include="Controls\Form.cs" />
+    <Compile Include="..\NView.Controls\Form.Shared.cs">
+      <Link>Controls\Form.Shared.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ProjectExtensions>

@@ -9,7 +9,7 @@ namespace NView.Controls
 	/// Cross platform Form View for NView. Based on MonoTouch.Dialog.
 	/// </summary>
 	[Preserve]
-	public class FormView : IView
+	public class Form : IView
 	{
 		UITableViewController tcontroller;
 		RootElement root = new RootElement ();
@@ -23,11 +23,11 @@ namespace NView.Controls
 			}
 		}
 
-		public FormView ()
+		public Form ()
 		{			
 		}
 
-		public FormView (RootElement root)
+		public Form (RootElement root)
 		{
 			this.root = root;
 		}
@@ -53,7 +53,7 @@ namespace NView.Controls
 
 		class FormViewSource : UITableViewSource
 		{
-			public FormView Form;
+			public Form Form;
 			public override nint NumberOfSections (UITableView tableView)
 			{
 				return Form.root.Count;
