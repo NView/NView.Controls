@@ -37,7 +37,7 @@ namespace NView.Controls
 				throw new ArgumentNullException ("nativeView");
 
 			UnbindFromNative ();
-			
+
 			label = ViewHelpers.GetView<UILabel> (nativeView);
 
 			if (options.HasFlag (BindOptions.PreserveNativeProperties)) {
@@ -58,14 +58,10 @@ namespace NView.Controls
 		}
 
 
-		/// <summary>
-		/// Gets the type of the preferred native control.
-		/// </summary>
-		/// <value>The type of the preferred native.</value>
-		public Type PreferredNativeType {
-			get {
-				return typeof(UILabel);
-			}
+		/// <inheritdoc/>
+		public object CreateNative (object context = null)
+		{
+			return new UILabel ();
 		}
 
 		#endregion

@@ -58,10 +58,9 @@ namespace NView.Controls
 		}
 
 		/// <inheritdoc/>
-		public Type PreferredNativeType {
-			get {
-				return typeof(Android.Widget.TextView);
-			}
+		public object CreateNative (object context = null)
+		{
+			return new Android.Widget.TextView ((Android.Content.Context)context);
 		}
 
 		#endregion

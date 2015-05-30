@@ -59,14 +59,12 @@ namespace NView.Controls
 		}
 
 		/// <inheritdoc/>
-		public Type PreferredNativeType {
-			get {
-				return typeof(NSTextField);
-			}
+		public object CreateNative (object context = null)
+		{
+			return new NSTextField ();
 		}
 
 		#endregion
-
 	}
 }
 

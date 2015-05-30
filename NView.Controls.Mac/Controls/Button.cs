@@ -96,13 +96,10 @@ namespace NView.Controls
 				Clicked (this, new EventArgs ());
 		}
 
-	
-
 		/// <inheritdoc/>
-		public Type PreferredNativeType {
-			get {
-				return typeof(NSButton);
-			}
+		public object CreateNative (object context = null)
+		{
+			return new NSButton ();
 		}
 
 		#endregion

@@ -182,7 +182,10 @@ namespace NView.Controls
 			
 			UnbindFromNative ();
 
-			this.nativeView = ViewHelpers.GetView<NativeView> (nativeView);
+			this.nativeView = nativeView as NativeView;
+
+			if (this.nativeView == null)
+				throw new InvalidOperationException ("Cannot convert " + nativeView + " to NativeView");
 
 			SetStackConstraints ();
 		}
@@ -200,10 +203,9 @@ namespace NView.Controls
 		}
 
 		/// <inheritdoc/>
-		public Type PreferredNativeType {
-			get {
-				return typeof(NativeView);
-			}
+		public object CreateNative (object context = null)
+		{
+			return new NativeView ();
 		}
 
 		#endregion

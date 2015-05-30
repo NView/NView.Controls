@@ -79,6 +79,9 @@ namespace NView.Controls
 			
 			textField = ViewHelpers.GetView<UIKit.UITextField> (nativeView);
 
+			if (textField == null)
+				throw new InvalidOperationException ("Cannot convert " + nativeView + " to UITextField");
+
 			if (options.HasFlag (BindOptions.PreserveNativeProperties)) {
 
 				text = textField.Text;
@@ -117,10 +120,9 @@ namespace NView.Controls
 		}
 
 		/// <inheritdoc/>
-		public Type PreferredNativeType {
-			get {
-				return typeof(UIKit.UITextField);
-			}
+		public object CreateNative (object context = null)
+		{
+			return new UIKit.UITextField ();
 		}
 
 		#endregion

@@ -106,10 +106,9 @@ namespace NView.Controls
 		}
 
 		/// <inheritdoc/>
-		public Type PreferredNativeType {
-			get {
-				return typeof(NSButton);
-			}
+		public object CreateNative (object context = null)
+		{
+			return new NSButton ();
 		}
 
 		#endregion

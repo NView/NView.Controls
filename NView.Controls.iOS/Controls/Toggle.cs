@@ -65,6 +65,9 @@ namespace NView.Controls
 
 			switchControl = ViewHelpers.GetView<UISwitch> (nativeView);
 
+			if (switchControl == null)
+				throw new InvalidOperationException ("Cannot convert " + nativeView + " to UISwitch");
+
 			if (options.HasFlag (BindOptions.PreserveNativeProperties)) {
 
 				isChecked = switchControl.On;
@@ -101,10 +104,9 @@ namespace NView.Controls
 		}
 
 		/// <inheritdoc/>
-		public Type PreferredNativeType {
-			get {
-				return typeof(UISwitch);
-			}
+		public object CreateNative (object context = null)
+		{
+			return new UISwitch ();
 		}
 
 		#endregion

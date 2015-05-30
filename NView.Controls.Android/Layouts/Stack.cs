@@ -41,10 +41,9 @@ namespace NView.Controls
 		}
 
 		/// <inheritdoc/>
-		public Type PreferredNativeType {
-			get {
-				return typeof(LinearLayout);
-			}
+		public object CreateNative (object context = null)
+		{
+			throw new NotImplementedException ();
 		}
 
 		#endregion

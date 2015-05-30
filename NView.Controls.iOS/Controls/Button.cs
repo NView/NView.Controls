@@ -96,10 +96,9 @@ namespace NView.Controls
 		}
 
 		/// <inheritdoc/>
-		public Type PreferredNativeType {
-			get {
-				return typeof(UIButton);
-			}
+		public object CreateNative (object context = null)
+		{
+			return UIButton.FromType (UIButtonType.RoundedRect);
 		}
 
 		#endregion

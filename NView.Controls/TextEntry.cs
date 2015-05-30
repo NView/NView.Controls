@@ -48,10 +48,9 @@ namespace NView.Controls
 		}
 
 		/// <inheritdoc/>
-		public Type PreferredNativeType {
-			get {
-				throw Helpers.ThrowNotImplementedException ();
-			}
+		public object CreateNative (object context = null)
+		{
+			throw Helpers.ThrowNotImplementedException ();
 		}
 
 		#endregion
