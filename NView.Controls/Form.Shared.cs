@@ -19,6 +19,41 @@ namespace NView.Controls
 			}
 		}
 
+		string detailText = "";
+		public string DetailText { 
+			get { return detailText; }
+			set {
+				var v = value ?? "";
+				if (detailText != v) {
+					detailText = v;
+					OnPropertyChanged ("DetailText");
+				}
+			}
+		}
+
+		string valueText = "";
+		public string ValueText { 
+			get { return valueText; }
+			set {
+				var v = value ?? "";
+				if (valueText != v) {
+					valueText = v;
+					OnPropertyChanged ("ValueText");
+				}
+			}
+		}
+
+		IView valueView = null;
+		public IView ValueView { 
+			get { return valueView; }
+			set {
+				if (valueView != value) {
+					valueView = value;
+					OnPropertyChanged ("ValueView");
+				}
+			}
+		}
+
 		public Element ()
 		{
 		}
@@ -26,6 +61,15 @@ namespace NView.Controls
 		public Element (string text)
 		{
 			this.text = text ?? "";
+		}
+
+		public void Select ()
+		{
+			OnSelect ();
+		}
+
+		protected virtual void OnSelect ()
+		{
 		}
 
 		#region INotifyPropertyChanged implementation
@@ -209,6 +253,7 @@ namespace NView.Controls
 			: base (text)
 		{
 			this.value = value;
+			ValueText = value.ToString ();
 		}
 	}
 
@@ -220,11 +265,13 @@ namespace NView.Controls
 
 		public FloatElement ()
 		{
+			ValueText = value.ToString ();
 		}
 
 		public FloatElement (double value)
 		{
 			this.value = value;
+			ValueText = value.ToString ();
 		}
 
 		public FloatElement (object minImage, object maxImage, double value)
@@ -232,6 +279,7 @@ namespace NView.Controls
 			this.minImage = minImage;
 			this.maxImage = maxImage;
 			this.value = value;
+			ValueText = value.ToString ();
 		}
 	}
 
@@ -244,19 +292,22 @@ namespace NView.Controls
 
 		public EntryElement ()
 		{
+			ValueText = "";
 		}
 
 		public EntryElement (string value)
 		{
 			this.value = value ?? "";
+			ValueText = this.value;
 		}
 
 		public EntryElement (string text, string placeholderText, string value, bool password = false)
 			: base (text)
 		{
-			this.placeholderText = placeholderText;
-			this.value = value;
+			this.placeholderText = placeholderText ?? "";
+			this.value = value ?? "";
 			this.password = password;
+			ValueText = this.value;
 		}
 	}
 
@@ -266,17 +317,20 @@ namespace NView.Controls
 
 		public DateElement ()
 		{
+			ValueText = value.ToString ();
 		}
 
 		public DateElement (DateTime value)
 		{
 			this.value = value;
+			ValueText = value.ToString ();
 		}
 
 		public DateElement (string text, DateTime value)
 			: base (text)
 		{
 			this.value = value;
+			ValueText = value.ToString ();
 		}
 	}
 

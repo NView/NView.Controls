@@ -20,6 +20,13 @@ namespace NView.Controls
 			}
 			set {
 				root = value ?? new RootElement ();
+				WithTV (tv => {
+					var fvs = tv.Source as FormViewSource;
+					if (fvs != null) {
+						fvs.Root = root;
+						tv.ReloadData ();
+					}
+				});
 			}
 		}
 
@@ -48,29 +55,80 @@ namespace NView.Controls
 
 		void SetDelegates (UITableView tv)
 		{
-			tv.Source = new FormViewSource { Form = this };
+			tv.Source = new FormViewSource { Root = root, Controller = tcontroller };
 		}
 
 		class FormViewSource : UITableViewSource
 		{
-			public Form Form;
+			public RootElement Root;
+			public UIViewController Controller;
 			public override nint NumberOfSections (UITableView tableView)
 			{
-				return Form.root.Count;
+				return Root.Count;
 			}
 			public override nint RowsInSection (UITableView tableview, nint section)
 			{
-				return Form.root [(int)section].Count;
+				return Root [(int)section].Count;
 			}
+			readonly NSString defaultReuseId = new NSString ("_T");
+			readonly NSString valueTextReuseId = new NSString ("_V");
 			public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
 			{
-				var reuseId = new NSString ("R");
+				var elm = Root [indexPath.Section] [indexPath.Row];
+
+				var reuseId = defaultReuseId;
+				var style = UITableViewCellStyle.Default;
+				if (!string.IsNullOrEmpty (elm.ValueText)) {
+					reuseId = valueTextReuseId;
+					style = UITableViewCellStyle.Value1;
+				} else if (elm.ValueView != null) {
+					var r = elm.ValueView.GetType ().Name;
+					style = UITableViewCellStyle.Subtitle;
+					if (string.IsNullOrEmpty (elm.Text)) {
+						r = "_N" + r;	
+					}
+					reuseId = new NSString (r);
+				}
+
 				var cell = tableView.DequeueReusableCell (reuseId);
 				if (cell == null) {
-					cell = new UITableViewCell (UITableViewCellStyle.Default, reuseId);
+					cell = new UITableViewCell (style, reuseId);
+					cell.SelectionStyle = UITableViewCellSelectionStyle.None;
 				}
-				cell.TextLabel.Text = Form.root [indexPath.Section] [indexPath.Row].Text;
+
+				var acc = UITableViewCellAccessory.None;
+				var sel = UITableViewCellSelectionStyle.None;
+				if (elm is RootElement) {
+					acc = UITableViewCellAccessory.DisclosureIndicator;
+					sel = UITableViewCellSelectionStyle.Default;
+				}
+				cell.Accessory = acc;
+				cell.SelectionStyle = sel;
+
+				cell.TextLabel.Text = elm.Text;
+
+				if (style == UITableViewCellStyle.Value1) {
+					cell.DetailTextLabel.Text = elm.ValueText;
+				} else if (style == UITableViewCellStyle.Subtitle) {
+					cell.DetailTextLabel.Text = elm.DetailText;
+				}
+
 				return cell;
+			}
+			public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
+			{
+				var elm = Root [indexPath.Section] [indexPath.Row];
+
+				elm.Select ();
+
+				var root = elm as RootElement;
+				if (root != null) {
+					var nav = Controller.NavigationController;
+					if (nav != null) {
+						var nextForm = new Form (root);
+						nav.PushViewController (ViewHelpers.CreateBoundNativeViewController (nextForm), true);
+					}
+				}
 			}
 		}
 
@@ -83,6 +141,7 @@ namespace NView.Controls
 			tcontroller = nativeView as UITableViewController;
 			if (tcontroller == null)
 				throw new Exception ("Cannot bind FormView to " + nativeView);
+			tcontroller.Title = root.Text;
 			WithTV (SetDelegates);
 		}
 
