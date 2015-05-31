@@ -40,9 +40,9 @@
     <Compile Include="Label.cs" />
     <Compile Include="Stack.cs" />
     <Compile Include="StackLayout.cs" />
-    <Compile Include="Toggle.cs" />
     <Compile Include="Form.cs" />
     <Compile Include="Form.Shared.cs" />
+    <Compile Include="Switch.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

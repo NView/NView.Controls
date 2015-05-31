@@ -3,19 +3,19 @@
 namespace NView.Controls
 {
 	/// <summary>
-	/// Cross platform Switch/Toggle for NView
+	/// Cross platform Switch for NView
 	/// </summary>
-	public class Toggle : IView 
+	public class Switch : IView 
 	{
 
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="NView.Controls.Toggle"/> is enabled.
+		/// Gets or sets a value indicating whether this <see cref="NView.Controls.Switch"/> is enabled.
 		/// </summary>
 		/// <value><c>true</c> if enabled; otherwise, <c>false</c>.</value>
 		public bool Enabled { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="NView.Controls.Toggle"/> is checked.
+		/// Gets or sets a value indicating whether this <see cref="NView.Controls.Switch"/> is checked.
 		/// </summary>
 		/// <value><c>true</c> if checked; otherwise, <c>false</c>.</value>
 		public bool Checked { get; set; }

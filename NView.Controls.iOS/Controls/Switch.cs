@@ -1,23 +1,23 @@
 ﻿
 using System;
-using AppKit;
+using UIKit;
 using Foundation;
 
 namespace NView.Controls
 {		
 	/// <summary>
-	/// Cross platform Stack layout for NView. Stacks can be horizontal or vertical.
+	/// Cross platform Switch for NView
 	/// </summary>
 	[Preserve]
-	public class Toggle : IView
+	public class Switch : IView
 	{
-		NSButton switchControl;
+		UISwitch switchControl;
 
 
 		bool enabled = true;
 
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="NView.Controls.Toggle"/> is enabled.
+		/// Gets or sets a value indicating whether this <see cref="NView.Controls.Switch"/> is enabled.
 		/// </summary>
 		/// <value><c>true</c> if enabled; otherwise, <c>false</c>.</value>
 		public bool Enabled {
@@ -34,7 +34,7 @@ namespace NView.Controls
 		bool isChecked = true;
 
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="NView.Controls.Toggle"/> is checked.
+		/// Gets or sets a value indicating whether this <see cref="NView.Controls.Switch"/> is checked.
 		/// </summary>
 		/// <value><c>true</c> if enabled; otherwise, <c>false</c>.</value>
 		public bool Checked {
@@ -44,7 +44,7 @@ namespace NView.Controls
 				if (switchControl == null)
 					return;
 
-				switchControl.State = isChecked ? NSCellStateValue.On : NSCellStateValue.Off;
+				switchControl.On = isChecked; 
 			}
 		}
 
@@ -63,41 +63,39 @@ namespace NView.Controls
 
 			UnbindFromNative ();
 
-			switchControl = ViewHelpers.GetView<NSButton> (nativeView);
-			switchControl.SetButtonType (NSButtonType.Switch);
-			switchControl.AllowsMixedState = false;
+			switchControl = ViewHelpers.GetView<UISwitch> (nativeView);
+
+			if (switchControl == null)
+				throw new InvalidOperationException ("Cannot convert " + nativeView + " to UISwitch");
 
 			if (options.HasFlag (BindOptions.PreserveNativeProperties)) {
 
-				isChecked = switchControl.State == NSCellStateValue.On;
+				isChecked = switchControl.On;
 				enabled = switchControl.Enabled;
 
 			} else {
 
-				switchControl.State = isChecked ? NSCellStateValue.On : NSCellStateValue.Off;
+				switchControl.On = isChecked;
 				switchControl.Enabled = enabled;
 
 			}
 
-			switchControl.Activated += SwitchControl_Activated;
+			switchControl.ValueChanged += SwitchControl_ValueChanged;
 		}
-
-
 
 		/// <inheritdoc/>
 		public void UnbindFromNative ()
 		{
 			if (switchControl == null)
 				return;
-			switchControl.Activated -= SwitchControl_Activated;
+			switchControl.ValueChanged -= SwitchControl_ValueChanged;
 			switchControl = null;
 		}
 
-		void SwitchControl_Activated (object sender, EventArgs e)
+		void SwitchControl_ValueChanged (object sender, EventArgs e)
 		{
-
 			if (switchControl != null)
-				isChecked = switchControl.State == NSCellStateValue.On;
+				isChecked = switchControl.On;
 
 			if (CheckedChanged == null)
 				return;
@@ -108,7 +106,7 @@ namespace NView.Controls
 		/// <inheritdoc/>
 		public object CreateNative (object context = null)
 		{
-			return new NSButton ();
+			return new UISwitch ();
 		}
 
 		#endregion

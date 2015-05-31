@@ -58,7 +58,7 @@
       <Link>Layouts\StackLayout.cs</Link>
     </Compile>
     <Compile Include="Layouts\Stack.cs" />
-    <Compile Include="Controls\Toggle.cs" />
+    <Compile Include="Controls\Switch.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

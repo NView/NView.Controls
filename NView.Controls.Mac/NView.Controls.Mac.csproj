@@ -69,7 +69,7 @@
       <Link>Layouts\StackLayout.cs</Link>
     </Compile>
     <Compile Include="Layouts\Stack.cs" />
-    <Compile Include="Controls\Toggle.cs" />
+    <Compile Include="Controls\Switch.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
   <ProjectExtensions>
