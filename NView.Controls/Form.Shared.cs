@@ -475,7 +475,7 @@ namespace NView.Controls
 			var methods = new Section ("Methods");
 			r.Add (methods);
 			foreach (var m in mirror.Methods) {
-				var elm = new MethodElement (m.Name, m.Get);
+				var elm = new MethodElement (m.Name, a => m.Get (value, a));
 				methods.Add (elm);
 			}
 
@@ -499,7 +499,7 @@ namespace NView.Controls
 
 	public class MethodElement : RootElement
 	{
-		Func<object, object[], object> get = null;
+		Func<object[], object> get = null;
 		bool needsEval = true;
 		List<Section> sections = new List<Section> ();
 
@@ -508,7 +508,7 @@ namespace NView.Controls
 			IsAction = true;
 		}
 
-		public MethodElement (string title, Func<object, object[], object> get)
+		public MethodElement (string title, Func<object[], object> get)
 			: base (title)
 		{
 			this.get = get;

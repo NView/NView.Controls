@@ -21,7 +21,7 @@ namespace NView.Controls
 			set {
 				root = value ?? new RootElement ();
 				WithTV (tv => {
-					var fvs = tv.Source as FormViewSource;
+					var fvs = tv.Source as FormSource;
 					if (fvs != null) {
 						fvs.Root = root;
 						tv.ReloadData ();
@@ -55,7 +55,7 @@ namespace NView.Controls
 
 		void SetDelegates (UITableView tv)
 		{
-			tv.Source = new FormViewSource { Root = root, Controller = tcontroller };
+			tv.Source = new FormSource { Root = root, Controller = tcontroller };
 		}
 
 		class FormCell : UITableViewCell
@@ -67,7 +67,7 @@ namespace NView.Controls
 			}
 		}
 
-		class FormViewSource : UITableViewSource
+		class FormSource : UITableViewSource
 		{
 			public RootElement Root;
 			public UIViewController Controller;

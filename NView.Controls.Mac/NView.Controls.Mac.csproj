@@ -70,6 +70,10 @@
     </Compile>
     <Compile Include="Layouts\Stack.cs" />
     <Compile Include="Controls\Switch.cs" />
+    <Compile Include="..\NView.Controls\Form.Shared.cs">
+      <Link>Controls\Form.Shared.cs</Link>
+    </Compile>
+    <Compile Include="Controls\Form.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
   <ProjectExtensions>
