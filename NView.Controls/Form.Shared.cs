@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Reflection;
+using System.Linq;
 
 namespace NView.Controls
 {
@@ -172,6 +174,8 @@ namespace NView.Controls
 
 		readonly Group group;
 
+		public bool IsAction { get; set; }
+
 		public RootElement ()
 			: base ("")
 		{
@@ -195,27 +199,30 @@ namespace NView.Controls
 			this.summaryElement = summaryElement;
 		}
 
-		public bool IsAction { get; set; }
+		protected virtual List<Section> GetSections ()
+		{
+			return sections;
+		}
 
-		public int Count { get { return sections.Count; } }
-		public Section this [int index] { get { return sections [index]; } }
+		public int Count { get { return GetSections ().Count; } }
+		public Section this [int index] { get { return GetSections ()[index]; } }
 		public void Add (Section section) {
-			sections.Add (section);
+			GetSections ().Add (section);
 		}
 		public void Add (IEnumerable<Section> sections) {
-			this.sections.AddRange (sections);
+			GetSections ().AddRange (sections);
 		}
 
 		#region IEnumerable implementation
 
 		IEnumerator IEnumerable.GetEnumerator ()
 		{
-			return sections.GetEnumerator ();
+			return GetSections ().GetEnumerator ();
 		}
 
 		IEnumerator<Section> IEnumerable<Section>.GetEnumerator ()
 		{
-			return sections.GetEnumerator ();
+			return GetSections ().GetEnumerator ();
 		}
 
 		#endregion
@@ -249,12 +256,19 @@ namespace NView.Controls
 
 	public class BooleanElement : Element
 	{
-		bool value;
+		public bool Value {
+			get { return ((Switch)ValueView).Checked; }
+			set { ((Switch)ValueView).Checked = value; }
+		}
+
+		public bool Enabled {
+			get { return ((Switch)ValueView).Enabled; }
+			set { ((Switch)ValueView).Enabled = value; }
+		}
 
 		public BooleanElement (string text = "", bool value = false)
 			: base (text)
 		{
-			this.value = value;
 			ValueView = new Switch {
 				Checked = value,
 			};
@@ -335,6 +349,190 @@ namespace NView.Controls
 		{
 			this.value = value;
 			ValueText = value.ToString ();
+		}
+	}
+
+	public class ObjectElement : RootElement
+	{
+		object value = null;
+		bool needsEval = true;
+		List<Section> sections = new List<Section> ();
+
+		public ObjectElement ()
+		{
+		}
+
+		public ObjectElement (string title, object value)
+			: base (title)
+		{
+			this.value = value;
+		}
+
+		class Mirror
+		{
+			public static readonly Mirror Null = new Mirror (typeof(object));
+
+			public readonly Type MirroredType;
+
+			public List<Porp> Properties = new List<Porp> ();
+			public List<Dohtem> Methods = new List<Dohtem> ();
+			public Mirror BaseMirror;
+
+			public class Porp
+			{
+				public string Name;
+				public Mirror Mirror;
+				public Func<object, object> Get;
+				public Action<object, object> Set;
+				public bool CanSet { get { return Set != null; } }
+			}
+
+			public class Dohtem
+			{
+				public string Name;
+				public Mirror Mirror;
+				public Func<object, object[], object> Get;
+			}
+
+			public Mirror (Type type)
+			{
+				this.MirroredType = type;
+			}
+
+			void Fill ()
+			{
+				var info = MirroredType.GetTypeInfo ();
+
+				BaseMirror = Get (info.BaseType);
+
+				var props = from p in info.DeclaredProperties
+						where p.GetMethod != null && p.GetMethod.IsPublic
+							orderby p.Name
+				             select new Porp {
+					Name = p.Name,
+					Mirror = Get (p.PropertyType),
+					Get = x => p.GetValue (x),
+				};
+				Properties = props.ToList ();
+
+				var methods = from p in info.DeclaredMethods
+						where p.IsPublic && !p.Name.StartsWith ("get_") &&
+					!p.Name.StartsWith ("set_") &&
+					!p.Name.StartsWith ("add_") && !p.Name.StartsWith ("remove_")
+					orderby p.Name
+						
+					select new Dohtem {
+					Name = p.Name,
+					Mirror = Get (p.ReturnType),
+					Get = p.Invoke,
+				};
+				Methods = methods.ToList ();
+			}
+
+			static readonly Dictionary<Type, Mirror> mirrors = new Dictionary<Type, Mirror> ();
+			public static Mirror Get (Type type)
+			{
+				if (type == null)
+					return null;
+				Mirror m;
+				if (!mirrors.TryGetValue (type, out m)) {
+					m = new Mirror (type);
+					mirrors.Add (type, m);
+					m.Fill ();
+				}
+				return m;
+			}
+		}
+
+		List<Section> Eval ()
+		{
+			var r = new List<Section> ();
+
+			var mirror = value == null ? Mirror.Null : Mirror.Get (value.GetType ());
+
+			var props = new Section ("Properties");
+			r.Add (props);
+			foreach (var p in mirror.Properties) {
+				object pv = null;
+				try {
+					pv = p.Get (value);
+				} catch (Exception ex) {
+					pv = ex;
+				}
+				Element elm;
+				if (pv == null) {
+					elm = new Element (p.Name) { ValueText = "null" };
+				} else if (pv is bool) {
+					elm = new BooleanElement (p.Name, (bool)pv) {
+						Enabled = p.CanSet,
+					};
+				} else {
+					elm = new Element (p.Name) { ValueText = pv.ToString (), };
+				}
+				props.Add (elm);
+			}
+
+			var methods = new Section ("Methods");
+			r.Add (methods);
+			foreach (var m in mirror.Methods) {
+				var elm = new MethodElement (m.Name, m.Get);
+				methods.Add (elm);
+			}
+
+			return r;
+		}
+
+		protected override List<Section> GetSections ()
+		{
+			if (needsEval) {
+				try {
+					sections = Eval ();
+				} catch (Exception ex) {
+					System.Diagnostics.Debug.WriteLine (ex);
+					sections = new List<Section> ();
+				}
+				needsEval = true;
+			}
+			return sections;
+		}
+	}
+
+	public class MethodElement : RootElement
+	{
+		Func<object, object[], object> get = null;
+		bool needsEval = true;
+		List<Section> sections = new List<Section> ();
+
+		public MethodElement ()
+		{
+			IsAction = true;
+		}
+
+		public MethodElement (string title, Func<object, object[], object> get)
+			: base (title)
+		{
+			this.get = get;
+			IsAction = true;
+		}
+
+		List<Section> Eval ()
+		{
+			var r = new List<Section> ();
+			return r;
+		}
+
+		protected override List<Section> GetSections ()
+		{
+			if (needsEval) {
+				try {
+					sections = Eval ();
+				} catch (Exception ex) {
+					System.Diagnostics.Debug.WriteLine (ex);
+					sections = new List<Section> ();
+				}
+				needsEval = true;
+			}
+			return sections;
 		}
 	}
 

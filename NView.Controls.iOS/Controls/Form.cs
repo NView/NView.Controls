@@ -151,6 +151,10 @@ namespace NView.Controls
 
 				return cell;
 			}
+			public override string TitleForHeader (UITableView tableView, nint section)
+			{
+				return Root [(int)section].Text;
+			}
 			public override string TitleForFooter (UITableView tableView, nint section)
 			{
 				return Root [(int)section].FooterText;
