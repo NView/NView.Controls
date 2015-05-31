@@ -115,6 +115,10 @@ namespace NView.Controls
 
 				return cell;
 			}
+			public override string TitleForFooter (UITableView tableView, nint section)
+			{
+				return Root [(int)section].FooterText;
+			}
 			public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 			{
 				var elm = Root [indexPath.Section] [indexPath.Row];
