@@ -195,6 +195,8 @@ namespace NView.Controls
 			this.summaryElement = summaryElement;
 		}
 
+		public bool IsAction { get; set; }
+
 		public int Count { get { return sections.Count; } }
 		public Section this [int index] { get { return sections [index]; } }
 		public void Add (Section section) {

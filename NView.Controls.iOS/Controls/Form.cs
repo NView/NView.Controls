@@ -80,13 +80,21 @@ namespace NView.Controls
 				return Root [(int)section].Count;
 			}
 			readonly NSString defaultReuseId = new NSString ("_T");
+			readonly NSString rootReuseId = new NSString ("_R");
+			readonly NSString rootActionReuseId = new NSString ("_A");
 			readonly NSString valueTextReuseId = new NSString ("_V");
 			public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
 			{
 				var elm = Root [indexPath.Section] [indexPath.Row];
 
+				var rootElm = elm as RootElement;
+				var isRoot = rootElm != null;
+
 				var reuseId = defaultReuseId;
 				var style = UITableViewCellStyle.Default;
+				if (isRoot) {
+					reuseId = rootElm.IsAction ? rootActionReuseId : rootReuseId;
+				}
 				if (!string.IsNullOrEmpty (elm.ValueText)) {
 					reuseId = valueTextReuseId;
 					style = UITableViewCellStyle.Value1;
@@ -107,8 +115,12 @@ namespace NView.Controls
 
 				var acc = UITableViewCellAccessory.None;
 				var sel = UITableViewCellSelectionStyle.None;
-				if (elm is RootElement) {
-					acc = UITableViewCellAccessory.DisclosureIndicator;
+				if (isRoot) {
+					if (rootElm.IsAction) {						
+						cell.TextLabel.TextColor = tableView.TintColor;
+					} else {
+						acc = UITableViewCellAccessory.DisclosureIndicator;
+					}
 					sel = UITableViewCellSelectionStyle.Default;
 				}
 				cell.Accessory = acc;
