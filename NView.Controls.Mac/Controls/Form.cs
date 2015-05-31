@@ -66,11 +66,11 @@ namespace NView.Controls
 			public FormCell (string reuseId)
 			{
 				Identifier = reuseId;
-				var t = new NSTextField (new CGRect (16, 6, 140, 20)) {
+				var t = new NSTextField (new CGRect (11, 11, 298, 20)) {
 					Editable = false,
 					BackgroundColor = NSColor.Clear,
 					Bordered = false,
-					Font = NSFont.SystemFontOfSize (NSFont.SystemFontSize),
+					Font = NSFont.SystemFontOfSize (16),
 				};
 				this.AddSubview (t);
 				TextField = t;
@@ -144,7 +144,7 @@ namespace NView.Controls
 			{
 				var rect = new CGRect (0, 0, 320, 480);
 				TableView = new NSTableView (rect) {
-					RowHeight = 32,
+					RowHeight = 44,
 					HeaderView = null,
 					//AllowsColumnResizing = false,
 					AllowsColumnReordering = false,
@@ -153,7 +153,7 @@ namespace NView.Controls
 					BackgroundColor = NSColor.FromWhite ((nfloat)(247.0/255.0), 1),
 				};
 				TableView.AddColumn (new NSTableColumn ("col0") {
-					Width = rect.Width/3,
+					Width = rect.Width,
 				});
 				var scroll = new NSScrollView (rect);
 				scroll.DocumentView = TableView;
