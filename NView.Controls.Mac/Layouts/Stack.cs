@@ -182,10 +182,7 @@ namespace NView.Controls
 			
 			UnbindFromNative ();
 
-			this.nativeView = nativeView as NativeView;
-
-			if (this.nativeView == null)
-				throw new InvalidOperationException ("Cannot convert " + nativeView + " to NativeView");
+			this.nativeView = ViewHelpers.GetView<NativeView> (nativeView);
 
 			SetStackConstraints ();
 		}
