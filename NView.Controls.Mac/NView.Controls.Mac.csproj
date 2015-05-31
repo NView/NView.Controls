@@ -49,10 +49,10 @@
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.Mac" />
     <Reference Include="NView.ViewHelpers">
-      <HintPath>..\packages\NView.1.4\lib\Xamarin.Mac20\NView.ViewHelpers.dll</HintPath>
+      <HintPath>..\..\NView.Samples\packages\NView.1.4.1\lib\Xamarin.Mac20\NView.ViewHelpers.dll</HintPath>
     </Reference>
     <Reference Include="NView">
-      <HintPath>..\packages\NView.1.4\lib\Xamarin.Mac20\NView.dll</HintPath>
+      <HintPath>..\..\NView.Samples\packages\NView.1.4.1\lib\Xamarin.Mac20\NView.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

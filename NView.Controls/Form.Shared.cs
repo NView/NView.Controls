@@ -253,7 +253,9 @@ namespace NView.Controls
 			: base (text)
 		{
 			this.value = value;
-			ValueText = value.ToString ();
+			ValueView = new Switch {
+				Checked = value,
+			};
 		}
 	}
 

@@ -58,6 +58,15 @@ namespace NView.Controls
 			tv.Source = new FormViewSource { Root = root, Controller = tcontroller };
 		}
 
+		class FormCell : UITableViewCell
+		{
+			public IView BoundValueView = null;
+			public FormCell (UITableViewCellStyle s, NSString id)
+				: base (s, id)
+			{				
+			}
+		}
+
 		class FormViewSource : UITableViewSource
 		{
 			public RootElement Root;
@@ -90,9 +99,9 @@ namespace NView.Controls
 					reuseId = new NSString (r);
 				}
 
-				var cell = tableView.DequeueReusableCell (reuseId);
+				var cell = tableView.DequeueReusableCell (reuseId) as FormCell;
 				if (cell == null) {
-					cell = new UITableViewCell (style, reuseId);
+					cell = new FormCell (style, reuseId);
 					cell.SelectionStyle = UITableViewCellSelectionStyle.None;
 				}
 
@@ -111,6 +120,21 @@ namespace NView.Controls
 					cell.DetailTextLabel.Text = elm.ValueText;
 				} else if (style == UITableViewCellStyle.Subtitle) {
 					cell.DetailTextLabel.Text = elm.DetailText;
+				}
+
+				if (elm.ValueView != null) {
+					if (cell.BoundValueView != null) {
+						cell.BoundValueView.UnbindFromNative ();
+						cell.BoundValueView = null;
+					}
+					var av = cell.AccessoryView;
+					if (av == null) {
+						av = elm.ValueView.CreateBoundNativeView ();
+						cell.AccessoryView = av;
+					} else {
+						elm.ValueView.BindToNative (av);
+					}
+					cell.BoundValueView = elm.ValueView;
 				}
 
 				return cell;

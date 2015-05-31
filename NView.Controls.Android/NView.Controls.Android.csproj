@@ -43,10 +43,10 @@
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
     <Reference Include="NView.ViewHelpers">
-      <HintPath>..\packages\NView.1.4\lib\MonoAndroid10\NView.ViewHelpers.dll</HintPath>
+      <HintPath>..\..\NView.Samples\packages\NView.1.4.1\lib\MonoAndroid10\NView.ViewHelpers.dll</HintPath>
     </Reference>
     <Reference Include="NView">
-      <HintPath>..\packages\NView.1.4\lib\MonoAndroid10\NView.dll</HintPath>
+      <HintPath>..\..\NView.Samples\packages\NView.1.4.1\lib\MonoAndroid10\NView.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
