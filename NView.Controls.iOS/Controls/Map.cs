@@ -10,7 +10,8 @@ namespace NView.Controls
 	public class Map : IView
 	{
 		MKMapView map;
-		UIGestureRecognizer tap;
+		UIGestureRecognizer singleTap;
+		UIGestureRecognizer doubleTap;
 
 		MapCoordinate setRegionCoord;
 		double setRegionDistance = 100000;
@@ -49,6 +50,8 @@ namespace NView.Controls
 		{
 			if (map == null)
 				return;
+			if (g.State != UIGestureRecognizerState.Recognized)
+				return;
 			var c = map.ConvertPoint (g.LocationInView (map), map);
 			Tapped (this, new MapTappedEventArgs { Coordinate = new MapCoordinate (c.Latitude, c.Longitude) });
 		}
@@ -67,8 +70,15 @@ namespace NView.Controls
 			UnbindFromNative ();
 			map = ViewHelpers.GetView<MKMapView> (native);
 
-			tap = new UITapGestureRecognizer (HandleTap);
-			map.AddGestureRecognizer (tap);
+			singleTap = new UITapGestureRecognizer (HandleTap) {
+				NumberOfTapsRequired = 1,
+			};
+			map.AddGestureRecognizer (singleTap);
+			doubleTap = new UITapGestureRecognizer {
+				NumberOfTapsRequired = 2,
+			};
+			map.AddGestureRecognizer (doubleTap);
+			singleTap.RequireGestureRecognizerToFail (doubleTap);
 
 			map.SetRegion (MKCoordinateRegion.FromDistance (
 				GetCoord (setRegionCoord), setRegionDistance, setRegionDistance),
@@ -77,10 +87,14 @@ namespace NView.Controls
 
 		public void UnbindFromNative ()
 		{
-			if (map != null && tap != null) {
-				map.RemoveGestureRecognizer (tap);
+			if (map != null) {
+				if (singleTap != null)
+					map.RemoveGestureRecognizer (singleTap);
+				if (doubleTap != null)
+					map.RemoveGestureRecognizer (doubleTap);
 			}
-			tap = null;
+			singleTap = null;
+			doubleTap = null;
 			map = null;
 		}
 
