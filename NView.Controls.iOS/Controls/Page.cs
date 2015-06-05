@@ -21,6 +21,11 @@ namespace NView.Controls
 			Title = "";
 		}
 
+		public Page (string title)
+		{
+			Title = title ?? "";
+		}
+
 		public Page (string title, IView view)
 		{
 			Title = title ?? "";
@@ -125,6 +130,8 @@ namespace NView.Controls
 				} else {
 					controller.NavigationItem.LeftBarButtonItem = null;
 				}
+
+				controller.Title = Title ?? "";
 			}
 		}
 

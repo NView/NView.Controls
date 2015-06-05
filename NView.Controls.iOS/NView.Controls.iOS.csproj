@@ -64,6 +64,10 @@
     </Compile>
     <Compile Include="Controls\Switch.cs" />
     <Compile Include="Controls\Page.cs" />
+    <Compile Include="Controls\Map.cs" />
+    <Compile Include="..\NView.Controls\Map.Shared.cs">
+      <Link>Controls\Map.Shared.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ProjectExtensions>
