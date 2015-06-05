@@ -124,6 +124,13 @@ namespace NView.Controls
 			this.footerText = footerText ?? "";
 		}
 
+		public Section (string text, IEnumerable<Element> elements)
+		{
+			this.text = text ?? "";
+			this.footerText = footerText ?? "";
+			Add (elements);
+		}
+
 		public int Count { get { return elements.Count; } }
 		public Element this [int index] { get { return elements [index]; } }
 		public void Add (Element element) {
@@ -184,6 +191,12 @@ namespace NView.Controls
 		public RootElement (string text)
 			: base (text)
 		{
+		}
+
+		public RootElement (string text, IEnumerable<Section> sections)
+			: base (text)
+		{
+			Add (sections);
 		}
 
 		public RootElement (string text, Group group)

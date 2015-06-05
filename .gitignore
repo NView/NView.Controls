@@ -17,6 +17,8 @@ local.properties
 .loadpath
 .nuget/
 *.userprefs
+/*.nupkg
+/*.nuspec.previous
 
 # External tool builders
 .externalToolBuilders/

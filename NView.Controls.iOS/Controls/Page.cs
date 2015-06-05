@@ -7,6 +7,8 @@ namespace NView.Controls
 {
 	public class Page : IView
 	{
+		static readonly bool isPhone = UIDevice.CurrentDevice.UserInterfaceIdiom == UIUserInterfaceIdiom.Phone;
+		UIViewController controller;
 		readonly List<IView> tools = new List<IView> ();
 
 		public string Title { get; set; }
@@ -23,6 +25,55 @@ namespace NView.Controls
 		{
 			Title = title ?? "";
 			View = view;
+		}
+
+		public void PopoverPage (Page page, IView presenter)
+		{
+			if (controller == null)
+				return;
+			
+			var vc = page.CreateBoundNativeViewController ();
+
+			if (isPhone && !(vc is UINavigationController)) {
+
+				var nav = new UINavigationController (vc);
+
+				vc.NavigationItem.RightBarButtonItem = new UIBarButtonItem (UIBarButtonSystemItem.Done, (s, e) => {
+					nav.DismissViewController (true, null);
+				});
+
+				vc = nav;
+			}
+
+			vc.ModalPresentationStyle = UIModalPresentationStyle.Popover;
+
+			var pc = vc.PopoverPresentationController;
+
+			var toolPresenter = Tools.IndexOf (presenter);
+			if (toolPresenter >= 0) {
+				pc.BarButtonItem = controller.NavigationItem.RightBarButtonItems [toolPresenter];
+			} else {
+				var addPresenter = presenter == AddButton;
+				if (addPresenter) {
+					pc.BarButtonItem = controller.NavigationItem.LeftBarButtonItem;
+				} else {
+					pc.SourceView = controller.View;
+				}
+			}
+
+			controller.PresentViewController (vc, true, null);
+		}
+
+		public void PushPage (Page page)
+		{
+			if (controller == null)
+				return;
+
+			var n = controller.NavigationController;
+			if (n == null)
+				return;
+
+			n.PushViewController (page.CreateBoundNativeViewController (), true);
 		}
 
 		#region IView implementation
@@ -52,33 +103,27 @@ namespace NView.Controls
 			if (View == null) {
 				return new UIViewController ();
 			}
-			var n = View.CreateNative ();
-			var vc = n as UIViewController;
-			if (vc == null) {
-				var v = n as UIView;
-				if (v == null)
-					throw new Exception ("Cannot create native for " + View);
-				vc = new UIViewController ();
-				vc.View = v;
-			}
-			return vc;
+			return View.CreateNativeViewController ();
 		}
 
 		public void BindToNative (object native, BindOptions options = BindOptions.None)
 		{
-			if (View != null) {
-				View.BindToNative (native, options);
+			UnbindFromNative ();
 
-				var vc = native as UIViewController;
-				if (vc != null) {
-					var toolItems = tools.Select (x => CreateToolItem (x)).ToArray ();
-					vc.NavigationItem.RightBarButtonItems = toolItems;
+			if (View == null)
+				return;
+			
+			View.BindToNative (native, options);
 
-					if (AddButton != null) {
-						vc.NavigationItem.LeftBarButtonItem = CreateAddItem (AddButton);
-					} else {
-						vc.NavigationItem.LeftBarButtonItem = null;
-					}
+			controller = native as UIViewController;
+			if (controller != null) {
+				var toolItems = tools.Select (x => CreateToolItem (x)).ToArray ();
+				controller.NavigationItem.RightBarButtonItems = toolItems;
+
+				if (AddButton != null) {
+					controller.NavigationItem.LeftBarButtonItem = CreateAddItem (AddButton);
+				} else {
+					controller.NavigationItem.LeftBarButtonItem = null;
 				}
 			}
 		}
@@ -88,6 +133,8 @@ namespace NView.Controls
 			if (View != null) {
 				View.UnbindFromNative ();
 			}
+
+			controller = null;
 		}
 
 		#endregion
