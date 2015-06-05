@@ -63,6 +63,7 @@
       <Link>Controls\Form.Shared.cs</Link>
     </Compile>
     <Compile Include="Controls\Switch.cs" />
+    <Compile Include="Controls\Page.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ProjectExtensions>

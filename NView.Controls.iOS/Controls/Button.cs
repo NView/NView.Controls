@@ -53,6 +53,12 @@ namespace NView.Controls
 		/// </summary>
 		public event EventHandler Clicked;
 
+		public void Click ()
+		{
+			if (Clicked != null)
+				Clicked (this, new EventArgs ());
+		}
+
 		#region IView implementation
 
 		/// <inheritdoc/>
@@ -91,8 +97,7 @@ namespace NView.Controls
 
 		void Button_TouchUpInside (object sender, EventArgs e)
 		{
-			if (Clicked != null)
-				Clicked (this, new EventArgs ());
+			Click ();
 		}
 
 		/// <inheritdoc/>
